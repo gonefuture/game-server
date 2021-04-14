@@ -1,4 +1,4 @@
-package io.github.gonefuture.gameserver.executor;
+package io.github.gonefuture.thread;
 
 import java.util.concurrent.TimeUnit;
 

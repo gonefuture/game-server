@@ -1,4 +1,4 @@
-package io.github.gonefuture.gameserver.rpc.anno;
+package io.github.gonefuture.rpc.anno;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

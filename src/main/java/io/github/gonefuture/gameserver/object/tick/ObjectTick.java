@@ -1,6 +1,6 @@
 package io.github.gonefuture.gameserver.object.tick;
 
-import io.github.gonefuture.gameserver.executor.IdentifyEventExecutorGroup;
+import io.github.gonefuture.thread.IdentifyEventExecutorGroup;
 import io.github.gonefuture.gameserver.object.AbstractVisibleObject;
 
 import java.lang.ref.WeakReference;

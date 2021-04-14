@@ -1,4 +1,4 @@
-package io.github.gonefuture.gameserver.rpc.anno;
+package io.github.gonefuture.rpc.anno;
 
 /**
  * 注册系统单例Service

@@ -1,4 +1,4 @@
-package io.github.gonefuture.gameserver.utility.obsever;
+package io.github.gonefuture.utility.obsever;
 
 /**
  * 观察者生效方式

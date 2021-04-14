@@ -1,4 +1,4 @@
-package io.github.gonefuture.gameserver.utility.obsever;
+package io.github.gonefuture.utility.obsever;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

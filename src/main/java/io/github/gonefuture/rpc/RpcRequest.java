@@ -1,4 +1,4 @@
-package io.github.gonefuture.gameserver.rpc;
+package io.github.gonefuture.rpc;
 
 /**
  * Rpc请求

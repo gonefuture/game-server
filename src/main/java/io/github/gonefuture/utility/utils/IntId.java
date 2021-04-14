@@ -1,4 +1,4 @@
-package io.github.gonefuture.gameserver.utility.utils;
+package io.github.gonefuture.utility.utils;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

@@ -1,4 +1,4 @@
-package io.github.gonefuture.gameserver.utility;
+package io.github.gonefuture.utility;
 
 /**
  * Byte 工具类

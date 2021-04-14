@@ -1,4 +1,4 @@
-package io.github.gonefuture.gameserver.executor;
+package io.github.gonefuture.thread;
 
 import com.alibaba.druid.util.DaemonThreadFactory;
 import com.alibaba.druid.util.StringUtils;

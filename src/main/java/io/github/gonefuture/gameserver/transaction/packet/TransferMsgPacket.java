@@ -1,7 +1,7 @@
 package io.github.gonefuture.gameserver.transaction.packet;
 
 import io.github.gonefuture.gameserver.net.WreponsePacket;
-import io.github.gonefuture.gameserver.utility.ByteUtils;
+import io.github.gonefuture.utility.ByteUtils;
 import io.netty.buffer.ByteBuf;
 
 
