@@ -55,12 +55,10 @@ public class Profile<PK, Column extends Enum<Column> & IProColumn> {
     /**
      *  获取或者创建一行记录数据
      *  <p>
-     *   优先使用{@link BaseProfi}
-     * @param pk
-     * @return
+     *   优先使用{@link BaseProfileType}
      */
     public ProRowInfo<PK, Column> getOrCreateRowInfo(PK pk) {
-        return rowMap.computeIfAbsent(pk, pk1 -> { new ProRowInfo<>(pk1, columns)});
+        return rowMap.computeIfAbsent(pk, pk1 ->  new ProRowInfo<>(pk1, columns));
     }
 
     /**

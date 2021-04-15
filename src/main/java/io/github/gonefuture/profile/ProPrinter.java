@@ -5,10 +5,12 @@ import org.checkerframework.checker.units.qual.C;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * 性能信息输出工具
@@ -36,9 +38,16 @@ public class ProPrinter<PK, Column extends Enum<Column> & IProColumn> {
 
 
     public static <PK, Column extends Enum<Column> & IProColumn> ProPrinter<PK, Column> valueOfDefaultPrintConverter(Class<Column> columnClass) {
-        return valueOfDefaultPrintConverter(columnClass.getEnumConstants())
+        return valueOfDefaultPrintConverter(columnClass.getEnumConstants());
     }
 
+    /**
+     *  创建一个默认字段显示的表格输出
+     * @param columns 需要显示的列数组
+     * @param <PK>  key类型
+     * @param <Column> value类型
+     * @return 默认显示方式的表格输出
+     */
     public static <PK, Column extends Enum<Column> & IProColumn> ProPrinter<PK, Column> valueOfDefaultPrintConverter(Column[] columns) {
         ProPrinter<PK, Column> vo = new ProPrinter<>();
         vo.columnInfos = new ArrayList<>();
@@ -50,7 +59,7 @@ public class ProPrinter<PK, Column extends Enum<Column> & IProColumn> {
             } else {
                 columnName = column.name();
             }
-            vo.
+            vo.addColumn(columnName, column);
         }
         vo.filters =  new ArrayList<>(3);
         return vo;
@@ -79,6 +88,9 @@ public class ProPrinter<PK, Column extends Enum<Column> & IProColumn> {
         return this;
     }
 
+    /**
+     *  清除已有显示信息
+     */
     public ProPrinter<PK, Column> clear() {
         this.columnInfos.clear();
         return this;
@@ -100,8 +112,47 @@ public class ProPrinter<PK, Column extends Enum<Column> & IProColumn> {
     }
 
 
+    /***
+     *  输出表格到指定位置
+     * @param profile 性能文件
+     * @param ps 输出流
+     */
     public void printTable(Profile<PK, Column> profile, PrintStream ps) {
         List<ProRowInfo<PK, Column>> proRowInfos = profile.covert2List();
+        // 处理过滤
+        if (!filters.isEmpty()) {
+            proRowInfos = proRowInfos.stream().filter(proRowInfo -> {
+                for (Predicate<ProRowInfo<PK, Column>> filter : filters) {
+                    if (filter.test(proRowInfo)) {
+                        return false;
+                    }
+                }
+                return true;
+            }).collect(Collectors.toList());
+        }
+
+        // 处理排序
+        if (comparator != null) {
+            proRowInfos.sort(comparator);
+        }
+        // 构造数据
+        int columnNum = columnInfos.size();
+        String[] columnNames = new String[columnNum];
+        Object[][] table = new Object[proRowInfos.size()][columnNum];
+        for (int column = 0; column < columnNum; column++) {
+            ColumnInfo columnInfo = columnInfos.get(column);
+            // 列明
+            columnNames[column] = columnInfo.name;
+            // 行数据
+            for (int row = 0; row < proRowInfos.size(); row++) {
+                ProRowInfo<PK, Column> proRowInfo = proRowInfos.get(row);
+                table[row][column] = columnInfo.column.apply(proRowInfo);
+            }
+        }
+        // 输出
+        System.out.println("=======");
+        System.out.println(Arrays.toString(columnNames));
+        System.out.println(Arrays.deepToString(table));
     }
 
 
