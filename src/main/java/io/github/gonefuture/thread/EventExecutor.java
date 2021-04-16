@@ -2,13 +2,14 @@ package io.github.gonefuture.thread;
 
 import io.netty.util.concurrent.EventExecutorGroup;
 import io.netty.util.concurrent.SingleThreadEventExecutor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-public class EventExecutor extends SingleThreadEventExecutor {
+public class EventExecutor extends SingleThreadEventExecutor implements TaskExecutor {
 
     /**
      *  执行器的序号
@@ -61,4 +62,10 @@ public class EventExecutor extends SingleThreadEventExecutor {
     }
 
 
+    @Override
+    public void execute(String taskName, Runnable command) {
+        if (StringUtils.isEmpty(taskName)) {
+
+        }
+    }
 }

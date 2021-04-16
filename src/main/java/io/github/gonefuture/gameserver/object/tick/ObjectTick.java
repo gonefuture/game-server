@@ -64,6 +64,8 @@ public class ObjectTick<T extends AbstractVisibleObject> implements Runnable {
     private AtomicBoolean close;
     private long delayOnPause;
 
+    IdentifyEventExecutorGroup identifyEventExecutorGroup;
+
 
 
 
@@ -115,7 +117,7 @@ public class ObjectTick<T extends AbstractVisibleObject> implements Runnable {
             return;
         }
         // 使用
-        future = IdentifyEventExecutorGroup.addScheduleAtFixedRate(obj.getDispatcherHashCode(), tickType.name(),
+        future = identifyEventExecutorGroup.addScheduleAtFixedRate(obj.getDispatcherHashCode(), tickType.name(),
                 initialDelay, period, timeUnit, this);
     }
 }
