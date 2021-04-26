@@ -59,4 +59,7 @@ public class TextTable {
     public void  printTable(PrintStream ps, int indent) {
 
     }
+
+
+    protected boolean
 }

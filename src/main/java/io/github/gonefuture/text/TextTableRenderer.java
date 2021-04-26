@@ -1,5 +1,6 @@
 package io.github.gonefuture.text;
 
+import io.github.gonefuture.utility.StringUtilsE;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.table.TableModel;
@@ -46,12 +47,109 @@ public class TextTableRenderer  implements TableRenderer{
 
         int rowCount = tableModel.getRowCount();
         int rowCountStrSize = Integer.toString(rowCount).length();
-        String indexFormat1 = "%1$-"
+        String indexFormat1 = "%1$-" + rowCountStrSize + "s ";
+        String indexForm2 = "%1$" + rowCountStrSize + "s.";
+        // Generate a format string for each column and calc totalLength
+        int totalLength = resolveFormats();
+
+        String headerStartSep = StringUtils.repeat("-", totalLength + tableModel.getColumnCount() * 2);
+        ps.print(indentStr);
+        indentAccordingToNumbering(ps, indexFormat1);
+        for ( int i =0; i < tableModel.getColumnCount(); i++) {
+            String columnName = tableModel.getColumnName(i);
+            ps.printf(getFormat(i, columnName), columnName);
+        }
+
+        indentAccordingToNumbering(ps, indexFormat1);
+        String headerSep = StringUtils.repeat("=", totalLength + tableModel.getColumnCount() * 2 - 1);
+        ps.print("|");
+        ps.print(headerSep);
+        ps.println("|");
+
+        // Print ' em out
+        for (int i=0; i < tableModel.getRowCount(); i++) {
+            addSeparatorIfNeeded(ps, separator, indexFormat1, i, indentStr);
+        }
+
 
 
     }
 
+    private void addSeparatorIfNeeded(PrintStream ps, String separator, String indexFormat1, int i, String indentStr) {
+        if (!textTable.separatorPolicies.isEmpty() && textTable.) {
+        }
+
+
+    }
+
+    /**
+     *  格式
+     * @param cal 格子序号
+     * @param o 对象
+     * @return 字符串
+     */
+    private String getFormat(int cal, Object o) {
+        int length = lengths[cal];
+        StringBuilder sb = new StringBuilder();
+        if (cal == 0) {
+            sb.append("|");
+        }
+        sb.append(" %1$-");
+        int offset = 0;
+        if (o != null) {
+            String input = o.toString();
+            offset = StringUtilsE.getLength(input) - input.length();
+        }
+        sb.append(length - offset);
+        sb.append("s|");
+        sb.append(cal + 1 == lengths.length ? "\n" : "");
+        return sb.toString();
+    }
+
+    private void indentAccordingToNumbering(PrintStream ps, String indexFormat1) {
+        if (textTable.addRowNumbering) {
+            ps.printf(indexFormat1, "");
+        }
+    }
+
+    /**
+     *  处理格式
+     * @return 总长度
+     */
+    private int resolveFormats() {
+        int totalLength = 0;
+        for (int i = 0; i < lengths.length; i++ ) {
+            StringBuilder sb = new StringBuilder();
+            if (i == 0) {
+                sb.append("|");
+            }
+            sb.append(" %1$-");
+            sb.append(lengths[i]);
+            sb.append("s|");
+            sb.append(i + 1 == lengths.length ? "\n" : "");
+            formats[i] = sb.toString();
+            totalLength += lengths[i];
+        }
+        return totalLength;
+    }
+
+    /**
+     *  处理分隔间距
+     * @param lengths 格子长度数组
+     * @return 分隔字符串
+     */
     private String resolveSeparator(int[] lengths) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < tableModel.getColumnCount(); i++) {
+            if (i == 0) {
+                sb.append("|");
+            }
+            lengths[i] = Math.max(tableModel.getColumnName(i).length(), lengths[i]);
+            // add 1 because of the leading space in each column
+            sb.append(StringUtils.repeat("-", lengths[i] + 1));
+            sb.append("|");
+        }
+        return sb.toString();
     }
 
     private void resolveColumnLengths() {
