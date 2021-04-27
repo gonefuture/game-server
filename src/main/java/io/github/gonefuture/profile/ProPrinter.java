@@ -1,5 +1,6 @@
 package io.github.gonefuture.profile;
 
+import io.github.gonefuture.text.TextTable;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.units.qual.C;
 
@@ -150,9 +151,8 @@ public class ProPrinter<PK, Column extends Enum<Column> & IProColumn> {
             }
         }
         // 输出
-        System.out.println("=======");
-        System.out.println(Arrays.toString(columnNames));
-        System.out.println(Arrays.deepToString(table));
+        TextTable textTable = new TextTable(columnNames, table);
+        textTable.printTable(ps, 0);
     }
 
 

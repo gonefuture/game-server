@@ -17,7 +17,7 @@ public class ProfileTest {
     public static void main(String[] args) {
 
 
-        IntStream.of(1,20).forEach(
+        IntStream.range(1,20).forEach(
                 i -> {
                     DataBaseProfile.DB_PRO.createRow(ProfileTest.class.getCanonicalName())
                             .add1(DataBaseProKey.submitCount).submit();

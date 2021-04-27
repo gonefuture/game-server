@@ -4,6 +4,7 @@ package io.github.gonefuture.text;
 import com.sun.tools.javac.util.Name;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.io.PrintStream;
@@ -35,6 +36,11 @@ public class TextTable {
         this.addRowNumbering = addRowNumbering;
     }
 
+    public TextTable(String[] columnNames, Object[][] data) {
+        this.tableModel = new DefaultTableModel(data, columnNames);
+    }
+
+
     public TableModel getTableModel() {
         return tableModel;
     }
@@ -56,10 +62,27 @@ public class TextTable {
     }
 
 
-    public void  printTable(PrintStream ps, int indent) {
+    public void  printTable() {
+        printTable(System.out, 0);
+    }
 
+    public void  printTable(PrintStream ps, int indent) {
+        TextTableRenderer renderer = new TextTableRenderer(this);
+        renderer.render(ps, indent);
     }
 
 
-    protected boolean
+    /**
+     *
+     * @param row 行
+     * @return 是否分隔
+     */
+    protected boolean hasSeparatorAt(int row) {
+        for (SeparatorPolicy separatorPolicy : separatorPolicies) {
+            if (separatorPolicy.hasSeparator(row)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

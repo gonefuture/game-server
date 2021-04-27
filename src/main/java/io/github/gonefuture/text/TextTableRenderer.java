@@ -69,17 +69,58 @@ public class TextTableRenderer  implements TableRenderer{
         // Print ' em out
         for (int i=0; i < tableModel.getRowCount(); i++) {
             addSeparatorIfNeeded(ps, separator, indexFormat1, i, indentStr);
+            ps.print(indentStr);
+            if (textTable.addRowNumbering) {
+                if (!modelAllowsNumberingAt(i)) {
+                    indentAccordingToNumbering(ps, indexFormat1);
+                } else {
+                    ps.printf(indexForm2, i + 1);
+                }
+            }
+            for (int j = 0; j < tableModel.getColumnCount(); j++) {
+                printValue(ps, i, j, false);
+            }
         }
 
 
 
     }
 
+    private void printValue(PrintStream ps, int row, int col, boolean empty) {
+        int rowIndex = row;
+        if (textTable.rowSorter != null) {
+            rowIndex = textTable.rowSorter.convertRowIndexToModel(row);
+        }
+        Object val = tableModel.getValueAt(rowIndex, col);
+        if (val == null && !showNulls) {
+            val = "";
+        }
+        Object value = empty ? "" : val;
+        ps.printf(getFormat(col, value), value);
+
+    }
+
     private void addSeparatorIfNeeded(PrintStream ps, String separator, String indexFormat1, int i, String indentStr) {
-        if (!textTable.separatorPolicies.isEmpty() && textTable.) {
+        if (!textTable.separatorPolicies.isEmpty() && textTable.hasSeparatorAt(i)
+        || ((tableModel instanceof TextTableModel) && ((TextTableModel) tableModel).addSeparatorAt(i))
+        ) {
+            indentAccordingToNumbering(ps, indexFormat1);
+            ps.print(indentStr);
+            ps.println(separator);
         }
 
 
+
+    }
+    protected boolean modelAllowsNumberingAt(int row) {
+        if (row == 8) {
+            System.out.print("");
+        }
+        if (tableModel instanceof TextTableModel) {
+            TextTableModel ttm = (TextTableModel) tableModel;
+            return ttm.allowNumberingAt(row);
+        }
+        return textTable.addRowNumbering;
     }
 
     /**
@@ -118,6 +159,7 @@ public class TextTableRenderer  implements TableRenderer{
      */
     private int resolveFormats() {
         int totalLength = 0;
+        formats = new String[lengths.length];
         for (int i = 0; i < lengths.length; i++ ) {
             StringBuilder sb = new StringBuilder();
             if (i == 0) {
@@ -153,6 +195,22 @@ public class TextTableRenderer  implements TableRenderer{
     }
 
     private void resolveColumnLengths() {
+        lengths = new int[tableModel.getColumnCount()];
+        for (int col = 0; col < tableModel.getColumnCount(); col++) {
+            String columnName = tableModel.getColumnName(col);
+            int length = StringUtilsE.getLength(columnName);
+            lengths[col] = Math.max(length, lengths[col]);
+
+            for (int row = 0; row < tableModel.getRowCount(); row++) {
+                Object val = tableModel.getValueAt(row, col);
+                String valStr = String.valueOf(val);
+                if (!showNulls && val == null) {
+                    valStr = "";
+                }
+                length = StringUtilsE.getLength(valStr);
+                lengths[col] = Math.max(length, lengths[col]);
+            }
+        }
     }
 
     @Override

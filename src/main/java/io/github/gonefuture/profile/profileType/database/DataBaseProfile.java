@@ -1,4 +1,4 @@
-package io.github.gonefuture.profile.profileType;
+package io.github.gonefuture.profile.profileType.database;
 
 import io.github.gonefuture.profile.BaseProfileType;
 import io.github.gonefuture.profile.IProColumn;
