@@ -86,7 +86,7 @@ public class TextTableRenderer  implements TableRenderer{
 
     }
 
-    private void printValue(PrintStream ps, int row, int col, boolean empty) {
+    protected void printValue(PrintStream ps, int row, int col, boolean empty) {
         int rowIndex = row;
         if (textTable.rowSorter != null) {
             rowIndex = textTable.rowSorter.convertRowIndexToModel(row);

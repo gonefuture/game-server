@@ -85,4 +85,12 @@ public class TextTable {
         }
         return false;
     }
+
+    protected Object getValueAt(int row, int column) {
+        int rowIndex = row;
+        if (rowSorter != null) {
+            rowIndex = rowSorter.convertRowIndexToModel(row);
+        }
+        return tableModel.getValueAt(rowIndex, column);
+    }
 }
