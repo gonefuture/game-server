@@ -22,7 +22,31 @@ public enum ProStrategy implements IProStrategy{
         public long reAdd(long oldValue, long newValue) {
             return Math.max(oldValue, newValue);
         }
-    }
+    },
+    /**
+     *  最小值
+     */
+    min {
+        @Override
+        public long reAdd(long oldValue, long newValue) {
+            return Math.min(oldValue,newValue);
+        }
+    },
+
     ;
+
+    /**
+     *  平均值
+     */
+    public static IProStrategy avg() {
+        long[] cuntAndSum = new long[2];
+        return ((oldValue, newValue) -> {
+            cuntAndSum[0]++;
+            cuntAndSum[1] += newValue;
+            // 这会带来一定程序的精度丢失
+            return cuntAndSum[1] / cuntAndSum[0];
+        });
+
+    }
 
 }

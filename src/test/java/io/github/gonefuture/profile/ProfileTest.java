@@ -1,7 +1,9 @@
 package io.github.gonefuture.profile;
 
-import io.github.gonefuture.profile.profileType.DataBaseProKey;
-import io.github.gonefuture.profile.profileType.DataBaseProfile;
+
+
+import io.github.gonefuture.profile.profileType.database.DataBaseProKey;
+import io.github.gonefuture.profile.profileType.database.DataBaseProfile;
 
 import java.io.PrintStream;
 import java.util.stream.IntStream;
@@ -16,7 +18,7 @@ public class ProfileTest {
 
     public static void main(String[] args) {
 
-
+        // 模拟数据库提交次数
         IntStream.range(1,20).forEach(
                 i -> {
                     DataBaseProfile.DB_PRO.createRow(ProfileTest.class.getCanonicalName())
