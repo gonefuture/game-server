@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: discovery
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        # 这里面的nacos地址是你自己的nacos-server的地址
+server:
+  port: 8081
+
+
