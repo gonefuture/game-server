@@ -1,7 +1,7 @@
 package io.github.gonefuture.text;
 
 
-import com.sun.tools.javac.util.Name;
+
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
