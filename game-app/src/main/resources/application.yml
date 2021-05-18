@@ -1,11 +1,15 @@
 server:
-  port: 80
+  port: 8080
   tomcat:
     uri-encoding: UTF-8
 
 spring:
   application:
     name: GAME-APP
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
   jmx:
     default-domain: GAME-APP
 
@@ -40,8 +44,8 @@ spring:
 
 debug: true
 #日志等级
-#logging:
-#  level: debug
+logging:
+  level: debug
 
 
 

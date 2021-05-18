@@ -7,16 +7,10 @@ server:
 spring:
   application:
     name: gateway
-
-#eurekaע��
-eureka:
-  client:
-    service-url:
-      defaultZone: http://120.77.250.250:30002/eureka/
-  instance:
-#    hostname: localhost
-    preferIpAddress: true
-    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
 
 
 #   ·��
@@ -39,6 +33,5 @@ endpoints:
 
 management:
   endpoint:
-
     shutdown:
       enabled: true
